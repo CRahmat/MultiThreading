@@ -44,7 +44,6 @@ public class Persegi extends Thread{
             fileRAFData = new RandomAccessFile("src\\saveData\\Data-Bangun.dat", "rw");
             fileRAFPersegi = new RandomAccessFile("src\\saveData\\Luas-Persegi.dat", "rw");
             RAFLenght = new RandomAccessFile("src\\saveData\\Data-Lenght.dat", "rw");
-
         }catch(FileNotFoundException fileNotFoundException){
             JOptionPane.showMessageDialog(null, "File Tidak Ditemukan!!!");
         }catch(Throwable throwable){
@@ -52,7 +51,7 @@ public class Persegi extends Thread{
         }
         try {
             RAFLenght.seek(0);
-            this.dataLenght = RAFLenght.read();
+            this.dataLenght = RAFLenght.readInt();
             RAFLenght.close();   
         }catch (IOException iOException) {
             JOptionPane.showMessageDialog(null, iOException.getMessage());
@@ -88,6 +87,7 @@ public class Persegi extends Thread{
                 row++;
                 Thread.sleep(500);
             }
+            
             fileRAFData.close();
             fileRAFPersegi.close();
             System.out.println("--------------------------END PROCESS OF PERSEGI--------------------------");

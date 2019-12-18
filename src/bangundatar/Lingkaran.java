@@ -58,7 +58,7 @@ public class Lingkaran extends Thread {
         }
         try {
             RAFLenght.seek(0);
-            dataLenght = RAFLenght.read();
+            dataLenght = RAFLenght.readInt();
             RAFLenght.close();   
         }catch (IOException iOException) {
             JOptionPane.showMessageDialog(null, iOException.getMessage());

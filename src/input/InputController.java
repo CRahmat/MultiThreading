@@ -56,12 +56,13 @@ public class InputController {
                     System.out.println(ex.getMessage());
                 }
                 //DEKLARASI--------------------------------------------------------------------------------
-                record = Integer.parseInt(inputView.linput.getText()); //Get From Input View
-                dataLenght = record * 8;
                 try {
-                    j = (int) RAFile.getFilePointer();
+                    record = Integer.parseInt(inputView.linput.getText()); //Get From Input View
+                    dataLenght = record * 8;
+                    j = 0;
                     RAFLenght.seek(j);
-                    RAFLenght.write(dataLenght);
+                    RAFLenght.writeInt(dataLenght);
+                    
                 } catch (Exception e) {
                 }
                 Integer[] P1 = new Integer[dataLenght];
