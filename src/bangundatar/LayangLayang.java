@@ -8,20 +8,10 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import output.OutputView;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- *
- * @author Catur Rahmat
- */
 public class LayangLayang extends Thread {
         OutputView outputView;
     protected int dataLenght;
-    protected Integer[] luasLayangLayang;
+    protected static Integer[] luasLayangLayang;
     protected Integer[] diagonal1;
     protected Integer[] diagonal2;
     private int data;
@@ -76,7 +66,7 @@ public class LayangLayang extends Thread {
             fileRAFData.setLength(dataLenght);
             
             k = (int) fileRAFLayangLayang.getFilePointer();
-            fileRAFLayangLayang.setLength(dataLenght/8);
+            fileRAFLayangLayang.setLength(dataLenght);
             index = 0;
             row = 0;
             while (j < fileRAFData.length()){

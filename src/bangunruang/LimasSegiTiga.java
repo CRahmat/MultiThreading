@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -21,7 +22,6 @@ import output.OutputView;
 public class LimasSegiTiga extends Segitiga implements Runnable{
     OutputView outputView;
     private int dataLenght;
-    private Integer[] luasSegitiga;
     protected Integer[] volumeLimasSegiTiga;
     private Integer[] tinggi;
     private int data;
@@ -70,15 +70,14 @@ public class LimasSegiTiga extends Segitiga implements Runnable{
         }
         try {
             index = 0;
-            tinggi = new Integer[dataLenght/8];
-            luasSegitiga = new Integer[dataLenght/8];
-            volumeLimasSegiTiga= new Integer[dataLenght/8];
+            tinggi = new Integer[dataLenght];
+            volumeLimasSegiTiga= new Integer[dataLenght];
             //-----------------------------------------------------------------------------------------------
             j = (int) fileRAFData.getFilePointer();
             fileRAFData.setLength(dataLenght);
             
             k = (int) fileRAFSegitiga.getFilePointer();
-            fileRAFSegitiga.setLength(dataLenght/8);
+            fileRAFSegitiga.setLength(dataLenght);
             index = 0;
             row = 0;
             
@@ -95,7 +94,7 @@ public class LimasSegiTiga extends Segitiga implements Runnable{
                 dataLuas = fileRAFSegitiga.read();
                 luasSegitiga[index] = dataLuas;
 
-                volumeLimasSegiTiga[row] = (int)(luasSegitiga[index]*tinggi[index] * 0.166666667);
+                volumeLimasSegiTiga[row] = (int)(super.luasSegitiga[index]*tinggi[index] * 0.166666667);
                 System.out.println("Volume Limas Segi Tiga adalah : "+volumeLimasSegiTiga[row]);
                 
                 outputView.tableVolumeLimasSegiTiga.insertRow(outputView.tableVolumeLimasSegiTiga.getRowCount(), new Object[]{

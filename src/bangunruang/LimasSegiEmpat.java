@@ -71,15 +71,15 @@ public class LimasSegiEmpat extends Persegi implements Runnable{
         }
         try {
             index = 0;
-            tinggi = new Integer[dataLenght/8];
-            luasPersegi = new Integer[dataLenght/8];
-            volumeLimasSegiEmpat= new Integer[dataLenght/8];
+            tinggi = new Integer[dataLenght];
+            luasPersegi = new Integer[dataLenght];
+            volumeLimasSegiEmpat= new Integer[dataLenght];
             //-----------------------------------------------------------------------------------------------
             j = (int) fileRAFData.getFilePointer();
             fileRAFData.setLength(dataLenght);
             
             k = (int) fileRAFPersegi.getFilePointer();
-            fileRAFPersegi.setLength(dataLenght/8);
+            fileRAFPersegi.setLength(dataLenght);
             index = 0;
             row = 0;
             while (j < fileRAFData.length()){
@@ -95,7 +95,7 @@ public class LimasSegiEmpat extends Persegi implements Runnable{
                 dataLuas = fileRAFPersegi.read();
                 luasPersegi[index] = dataLuas;
 
-                volumeLimasSegiEmpat[row] = (int)(luasPersegi[index]*tinggi[index] * 0.333333333);
+                volumeLimasSegiEmpat[row] = (int)(super.luasPersegi[index]*tinggi[index] * 0.333333333);
                 System.out.println("Volume Limas Segi Empat adalah : "+volumeLimasSegiEmpat[row]);
                 
                 outputView.tableVolumeLimasSegiEmpat.insertRow(outputView.tableVolumeLimasSegiEmpat.getRowCount(), new Object[]{

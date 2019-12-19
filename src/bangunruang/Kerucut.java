@@ -70,15 +70,15 @@ public class Kerucut extends Lingkaran implements Runnable{
         }
         try {
             index = 0;
-            tinggi = new Integer[dataLenght/8];
-            luasLingkaran = new Integer[dataLenght/8];
-            volumeKerucut = new Integer[dataLenght/8];
+            tinggi = new Integer[dataLenght];
+            luasLingkaran = new Integer[dataLenght];
+            volumeKerucut = new Integer[dataLenght];
             //-----------------------------------------------------------------------------------------------
             j = (int) fileRAFData.getFilePointer();
             fileRAFData.setLength(dataLenght);
             
             k = (int) fileRAFLingkaran.getFilePointer();
-            fileRAFLingkaran.setLength(dataLenght/8);
+            fileRAFLingkaran.setLength(dataLenght);
             index = 0;
             row = 0;
             
@@ -95,7 +95,7 @@ public class Kerucut extends Lingkaran implements Runnable{
                 dataLuas = fileRAFLingkaran.read();
                 luasLingkaran[index] = dataLuas;
 
-                volumeKerucut[row] = (int)(luasLingkaran[index]*tinggi[index] * (0.333333333));
+                volumeKerucut[row] = (int)(Lingkaran.luasLingkaran[index]*tinggi[index] * (0.333333333));
                 System.out.println("Volume Kerucut adalah : "+volumeKerucut[row]);
                 
                 outputView.tableVolumeKerucut.insertRow(outputView.tableVolumeKerucut.getRowCount(), new Object[]{

@@ -8,20 +8,10 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import output.OutputView;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- *
- * @author Catur Rahmat
- */
 public class BelahKetupat extends Thread{
     OutputView outputView;
     protected int dataLenght;
-    protected Integer[] luasBelahKetupat;
+    protected static Integer[] luasBelahKetupat;
     protected Integer[] diagonal1;
     protected Integer[] diagonal2;
     RandomAccessFile fileRAFData = null;
@@ -76,7 +66,7 @@ public class BelahKetupat extends Thread{
             fileRAFData.setLength(dataLenght);
             
             k = (int) fileRAFBelahKetupat.getFilePointer();
-            fileRAFBelahKetupat.setLength(dataLenght/8);
+            fileRAFBelahKetupat.setLength(dataLenght);
             index = 0;
             row = 0;
             while (j < fileRAFData.length()){

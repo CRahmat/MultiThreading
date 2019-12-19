@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package input;
 
 import MainMenu.VCMainMenu;
@@ -15,10 +10,8 @@ import java.awt.event.MouseEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import javax.swing.JOptionPane;
 
-/**
- * @author Catur Rahmat
- */
 public class InputController {
     InputView inputView;
     int dataLenght;
@@ -59,11 +52,12 @@ public class InputController {
                 try {
                     record = Integer.parseInt(inputView.linput.getText()); //Get From Input View
                     dataLenght = record * 8;
-                    j = 0;
+                    j = (int) RAFLenght.getFilePointer();
                     RAFLenght.seek(j);
                     RAFLenght.writeInt(dataLenght);
-                    
+                    RAFLenght.close();
                 } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, e.getMessage());
                 }
                 Integer[] P1 = new Integer[dataLenght];
                 Integer[] P2 = new Integer[dataLenght];

@@ -1,19 +1,9 @@
 package MainMenu;
 
-
 import javax.swing.*;
 import java.awt.*;
-
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
-/**
- * @author Catur Rahmat
- */
 public class MainMenuView {
     JFrame frame = new JFrame("MAIN MENU");
     JPanel background = new JPanel();

@@ -21,7 +21,6 @@ import output.OutputView;
 public class Bola extends Lingkaran implements Runnable{
     OutputView outputView;
     private int dataLenght;
-    private Integer[] luasLingkaran;
     protected Integer[] volumeBola;
     private Integer[] jarijari;
     private int data;
@@ -70,15 +69,14 @@ public class Bola extends Lingkaran implements Runnable{
         }
         try {
             index = 0;
-            jarijari = new Integer[dataLenght/8];
-            luasLingkaran = new Integer[dataLenght/8];
-            volumeBola = new Integer[dataLenght/8];
+            jarijari = new Integer[dataLenght];
+            volumeBola = new Integer[dataLenght];
             //-----------------------------------------------------------------------------------------------
             j = (int) fileRAFData.getFilePointer();
             fileRAFData.setLength(dataLenght);
             
             k = (int) fileRAFLingkaran.getFilePointer();
-            fileRAFLingkaran.setLength(dataLenght/8);
+            fileRAFLingkaran.setLength(dataLenght);
             index = 0;
             row = 0;
             
@@ -95,7 +93,7 @@ public class Bola extends Lingkaran implements Runnable{
                 dataLuas = fileRAFLingkaran.read();
                 luasLingkaran[index] = dataLuas;
 
-                volumeBola[row] = (int)(luasLingkaran[index]*jarijari[index] * (0.75));
+                volumeBola[row] = (int)(Lingkaran.luasLingkaran[index]*jarijari[index] * (0.75));
                 System.out.println("Volume Bola adalah : "+volumeBola[row]);
                 
                 outputView.tableVolumeBola.insertRow(outputView.tableVolumeBola.getRowCount(), new Object[]{

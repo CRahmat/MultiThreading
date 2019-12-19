@@ -70,15 +70,15 @@ public class Balok extends PersegiPanjang implements Runnable{
         }
         try {
             index = 0;
-            tinggi = new Integer[dataLenght/8];
-            luasPersegiPanjang = new Integer[dataLenght/8];
-            volumeBalok = new Integer[dataLenght/8];
+            tinggi = new Integer[dataLenght];
+            luasPersegiPanjang = new Integer[dataLenght];
+            volumeBalok = new Integer[dataLenght];
             //-----------------------------------------------------------------------------------------------
             j = (int) fileRAFData.getFilePointer();
             fileRAFData.setLength(dataLenght);
             
             k = (int) fileRAFPersegiPanjang.getFilePointer();
-            fileRAFPersegiPanjang.setLength(dataLenght/8);
+            fileRAFPersegiPanjang.setLength(dataLenght);
             
             index = 0;
             row = 0;
@@ -96,7 +96,7 @@ public class Balok extends PersegiPanjang implements Runnable{
                 dataLuas = fileRAFPersegiPanjang.read();
                 luasPersegiPanjang[index] = dataLuas;
 
-                volumeBalok[row] = luasPersegiPanjang[index]*tinggi[index];
+                volumeBalok[row] = super.luasPersegiPanjang[index]*tinggi[index];
                 System.out.println("Volume Kubus adalah : "+volumeBalok[row]);
                 
                 outputView.tableVolumeBalok.insertRow(outputView.tableVolumeBalok.getRowCount(), new Object[]{

@@ -8,20 +8,10 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import output.OutputView;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- *
- * @author Catur Rahmat
- */
 public class Trapesium extends Thread{
         OutputView outputView;
     protected int dataLenght;
-    protected Integer[] luasTrapesium;
+    protected static Integer[] luasTrapesium;
     protected Integer[] panjang1;
     protected Integer[] panjang2;
     protected Integer[] tinggi;
@@ -76,7 +66,7 @@ public class Trapesium extends Thread{
             j = (int) fileRAFData.getFilePointer();
             fileRAFData.setLength(dataLenght);
             k = (int) fileRAFTrapesium.getFilePointer();
-            fileRAFTrapesium.setLength(dataLenght/8);
+            fileRAFTrapesium.setLength(dataLenght);
             index = 0;
             row = 0;
             while (j < fileRAFData.length()){

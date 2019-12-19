@@ -8,20 +8,10 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import output.OutputView;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- *
- * @author Catur Rahmat
- */
 public class Segitiga extends Thread {
     OutputView outputView;
     protected int dataLenght;
-    protected Integer[] luasSegitiga;
+    protected static Integer[] luasSegitiga;
     protected Integer[] alas;
     protected Integer[] tinggi;
     private int data;
@@ -75,7 +65,7 @@ public class Segitiga extends Thread {
             fileRAFData.setLength(dataLenght);
             
             k = (int) fileRAFSegitiga.getFilePointer();
-            fileRAFSegitiga.setLength(dataLenght/8);
+            fileRAFSegitiga.setLength(dataLenght);
             index = 0;
             row = 0;
             while (j < fileRAFData.length()){

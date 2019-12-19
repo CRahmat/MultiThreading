@@ -70,15 +70,15 @@ public class PrismaSegitiga extends Segitiga implements Runnable{
         }
         try {
             index = 0;
-            tinggi = new Integer[dataLenght/8];
-            luasSegitiga = new Integer[dataLenght/8];
-            volumePrisma= new Integer[dataLenght/8];
+            tinggi = new Integer[dataLenght];
+            luasSegitiga = new Integer[dataLenght];
+            volumePrisma= new Integer[dataLenght];
             //-----------------------------------------------------------------------------------------------
             j = (int) fileRAFData.getFilePointer();
             fileRAFData.setLength(dataLenght);
             
             k = (int) fileRAFSegitiga.getFilePointer();
-            fileRAFSegitiga.setLength(dataLenght/8);
+            fileRAFSegitiga.setLength(dataLenght);
             index = 0;
             row = 0;
             
@@ -95,7 +95,7 @@ public class PrismaSegitiga extends Segitiga implements Runnable{
                 dataLuas = fileRAFSegitiga.read();
                 luasSegitiga[index] = dataLuas;
 
-                volumePrisma[row] = (int)(luasSegitiga[index]*tinggi[index] * 0.333333333);
+                volumePrisma[row] = (int)(super.luasSegitiga[index]*tinggi[index] * 0.333333333);
                 System.out.println("Volume Limas Segi Tiga adalah : "+volumePrisma[row]);
                 
                 outputView.tableVolumePrisma.insertRow(outputView.tableVolumePrisma.getRowCount(), new Object[]{

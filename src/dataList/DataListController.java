@@ -17,10 +17,6 @@ import java.io.RandomAccessFile;
 import javafx.scene.control.ListView;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author Catur Rahmat
- */
 public class DataListController{
     DataListView dataListView;
     int dataLenght;
@@ -40,13 +36,11 @@ public class DataListController{
                 dataListView.frame.setVisible(false);
             }
         });
-                //Deleted All Data In JTable when JTable Not Empty
     }
     public void getListData(){
-                try {
+        try {
             fileRAFData = new RandomAccessFile("src\\saveData\\Data-Bangun.dat", "rw");
             RAFLenght = new RandomAccessFile("src\\saveData\\Data-Lenght.dat", "rw");
-
         }catch(FileNotFoundException fileNotFoundException){
             JOptionPane.showMessageDialog(null, "File Tidak Ditemukan!!!");
         }catch(Throwable throwable){
@@ -54,7 +48,7 @@ public class DataListController{
         }
         try {
             RAFLenght.seek(0);
-            this.dataLenght = RAFLenght.read();
+            dataLenght = RAFLenght.readInt();
             RAFLenght.close();   
         }catch (IOException iOException) {
             JOptionPane.showMessageDialog(null, iOException.getMessage());
@@ -73,6 +67,7 @@ public class DataListController{
             //-----------------------------------------------------------------------------------------------
             j = (int)fileRAFData.getFilePointer();
             fileRAFData.setLength(dataLenght);
+            
             index = 0;
             while (j < fileRAFData.length()) {
                 fileRAFData.seek(j);

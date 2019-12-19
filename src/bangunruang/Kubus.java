@@ -73,14 +73,14 @@ public class Kubus extends Persegi implements Runnable{
         try {
             index = 0;
             sisi = new Integer[dataLenght];
-            luasPersegi = new Integer[dataLenght/8];
-            volumeKubus = new Integer[dataLenght/8];
+            luasPersegi = new Integer[dataLenght];
+            volumeKubus = new Integer[dataLenght];
             //-----------------------------------------------------------------------------------------------
             j = (int) fileRAFData.getFilePointer();
             fileRAFData.setLength(dataLenght);
             
             k = (int) fileRAFPersegi.getFilePointer();
-            fileRAFPersegi.setLength(dataLenght/8);
+            fileRAFPersegi.setLength(dataLenght);
             index = 0;
             row = 0;
             

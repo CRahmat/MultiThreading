@@ -8,20 +8,10 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import output.OutputView;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- *
- * @author Catur Rahmat
- */
 public class Lingkaran extends Thread {
-        OutputView outputView;
+    OutputView outputView;
     protected int dataLenght;
-    protected Integer[] luasLingkaran;
+    protected static Integer[] luasLingkaran;
     protected Integer[] jarijari;
     private int data;
     int j;
@@ -68,13 +58,13 @@ public class Lingkaran extends Thread {
         try {
             jarijari = new Integer[dataLenght];
             //-----------------------------------------------------------------------------------------------
-            luasLingkaran = new Integer[dataLenght/8];
+            luasLingkaran = new Integer[dataLenght];
             //-----------------------------------------------------------------------------------------------
             j = (int) fileRAFData.getFilePointer();
             fileRAFData.setLength(dataLenght);
             
             k = (int) fileRAFLingkaran.getFilePointer();
-            fileRAFLingkaran.setLength(dataLenght/8);
+            fileRAFLingkaran.setLength(dataLenght);
             index = 0;
             row = 0;
             while (j < fileRAFData.length()){

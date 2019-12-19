@@ -70,15 +70,15 @@ public class Tabung extends Lingkaran implements Runnable{
         }
         try {
             index = 0;
-            tinggi = new Integer[dataLenght/8];
-            luasLingkaran = new Integer[dataLenght/8];
-            volumeTabung = new Integer[dataLenght/8];
+            tinggi = new Integer[dataLenght];
+            luasLingkaran = new Integer[dataLenght];
+            volumeTabung = new Integer[dataLenght];
             //-----------------------------------------------------------------------------------------------
             j = (int) fileRAFData.getFilePointer();
             fileRAFData.setLength(dataLenght);
             
             k = (int) fileRAFLingkaran.getFilePointer();
-            fileRAFLingkaran.setLength(dataLenght/8);
+            fileRAFLingkaran.setLength(dataLenght);
             index = 0;
             row = 0;
             
@@ -95,7 +95,7 @@ public class Tabung extends Lingkaran implements Runnable{
                 dataLuas = fileRAFLingkaran.read();
                 luasLingkaran[index] = dataLuas;
 
-                volumeTabung[row] = (int)(luasLingkaran[index]*tinggi[index]);
+                volumeTabung[row] = (int)(Lingkaran.luasLingkaran[index]*tinggi[index]);
                 System.out.println("Volume Tabung adalah : "+volumeTabung[row]);
                 
                 outputView.tableVolumeTabung.insertRow(outputView.tableVolumeTabung.getRowCount(), new Object[]{
