@@ -10,6 +10,8 @@ import java.awt.event.MouseEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class InputController {
@@ -43,21 +45,17 @@ public class InputController {
                 try {
                     RAFile = new RandomAccessFile("src\\saveData\\Data-Bangun.dat", "rw");
                     RAFLenght = new RandomAccessFile("src\\saveData\\Data-Lenght.dat", "rw");
-                } catch (FileNotFoundException ex) {
-                    System.out.println(ex.getMessage());
-                } catch (Exception ex) {
-                    System.out.println(ex.getMessage());
-                }
-                //DEKLARASI--------------------------------------------------------------------------------
-                try {
+
                     record = Integer.parseInt(inputView.linput.getText()); //Get From Input View
                     dataLenght = record * 8;
                     j = (int) RAFLenght.getFilePointer();
                     RAFLenght.seek(j);
                     RAFLenght.writeInt(dataLenght);
                     RAFLenght.close();
-                } catch (Exception e) {
+                } catch (FileNotFoundException e) {
                     JOptionPane.showMessageDialog(null, e.getMessage());
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage());
                 }
                 Integer[] P1 = new Integer[dataLenght];
                 Integer[] P2 = new Integer[dataLenght];

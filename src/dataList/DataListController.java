@@ -41,21 +41,11 @@ public class DataListController{
         try {
             fileRAFData = new RandomAccessFile("src\\saveData\\Data-Bangun.dat", "rw");
             RAFLenght = new RandomAccessFile("src\\saveData\\Data-Lenght.dat", "rw");
-        }catch(FileNotFoundException fileNotFoundException){
-            JOptionPane.showMessageDialog(null, "File Tidak Ditemukan!!!");
-        }catch(Throwable throwable){
-            JOptionPane.showMessageDialog(null, throwable.getMessage());
-        }
-        try {
+
             RAFLenght.seek(0);
             dataLenght = RAFLenght.readInt();
             RAFLenght.close();   
-        }catch (IOException iOException) {
-            JOptionPane.showMessageDialog(null, iOException.getMessage());
-        }catch (Throwable throwable) {
-            JOptionPane.showMessageDialog(null, throwable.getMessage());
-        }
-        try {
+
             Integer[] panjang1 = new Integer[dataLenght];//kalau trapesium ini sisi sejajar kedua
             Integer[] panjang2 = new Integer[dataLenght];//kalau trapesium ini sisi sejajar kedua
             Integer[] lebar1 = new Integer[dataLenght];

@@ -47,8 +47,6 @@ public class MainMenuView {
         lversion.setBounds(405, 460, 90, 20);
         lversion.setForeground(new Color(255, 77, 125));
         content.add(lversion);
-
-
         lbackground.setBounds(0, 0, 900, 500);
         lbackground.setIcon(ibackground);
         content.add(lbackground);

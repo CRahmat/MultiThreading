@@ -12,93 +12,98 @@ public class LayangLayang extends Thread {
         OutputView outputView;
     protected int dataLenght;
     protected static Integer[] luasLayangLayang;
+    protected static Integer[] kelilingLayangLayang;
     protected Integer[] diagonal1;
     protected Integer[] diagonal2;
     private int data;
     int j;
     int k;
+    int l;
     int index;
     int row;
     RandomAccessFile fileRAFData = null;
-    RandomAccessFile fileRAFLayangLayang = null;
+    RandomAccessFile fileRAFLuasLayangLayang = null;
+    RandomAccessFile fileRAFKelilingLayangLayang = null;
     RandomAccessFile RAFLenght = null;
     
-    public LayangLayang(OutputView outputView){
-       this.outputView = outputView;
+    public LayangLayang(OutputView outputView){//Constructor dari Layang Layang Dengan Parameter OutputView 
+       this.outputView = outputView;           //Digunakan Untuk Input Hasil Perhitungan Ke View
     }
-    
+    //Override method run dikarenakan extends Threads
     @Override
+        //Badan Threads
     public void run() {
         try {
             Thread.sleep(4000);
             hitungLuas();
-        } catch (InterruptedException ex) {
-            Logger.getLogger(LayangLayang.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {//Exception Threads Terinterupsi
+           JOptionPane.showMessageDialog(null, ex.getMessage());
         }
     }
     public synchronized void hitungLuas(){
                 try {
+            //Instansiasi Obyek Random Access File
             fileRAFData = new RandomAccessFile("src\\saveData\\Data-Bangun.dat", "rw");
-            fileRAFLayangLayang = new RandomAccessFile("src\\saveData\\Luas-LayangLayang.dat", "rw");
+            fileRAFLuasLayangLayang = new RandomAccessFile("src\\saveData\\2D\\Luas-LayangLayang.dat", "rw");
+            fileRAFKelilingLayangLayang = new RandomAccessFile("src\\saveData\\2D\\Keliling-LayangLayang.dat", "rw");
             RAFLenght = new RandomAccessFile("src\\saveData\\Data-Lenght.dat", "rw");
 
-        }catch(FileNotFoundException fileNotFoundException){
-            JOptionPane.showMessageDialog(null, "File Tidak Ditemukan!!!");
-        }catch(Throwable throwable){
-            JOptionPane.showMessageDialog(null, throwable.getMessage());
-        }
-        try {
-            RAFLenght.seek(0);
-            dataLenght = RAFLenght.readInt();
-            RAFLenght.close();   
-        }catch (IOException iOException) {
-            JOptionPane.showMessageDialog(null, iOException.getMessage());
-        }catch (Throwable throwable) {
-            JOptionPane.showMessageDialog(null, throwable.getMessage());
-        }
-        try {
+            RAFLenght.seek(0);//File Selalu Berada Pada File Pointer 0 (Hanya 1 Data)
+            dataLenght = RAFLenght.readInt();//Baca Lenght Dari File
+            RAFLenght.close();//Close File Lenght    
+            //Instansiasi Obyek yang Di Gunakan Untuk Perhitungan
             diagonal1 = new Integer[dataLenght];
             diagonal2 = new Integer[dataLenght];
-            //-----------------------------------------------------------------------------------------------
             luasLayangLayang = new Integer[dataLenght];
-            //-----------------------------------------------------------------------------------------------
+            kelilingLayangLayang = new Integer[dataLenght];
+            //SetLenght and Get Pointer dari File
             j = (int) fileRAFData.getFilePointer();
             fileRAFData.setLength(dataLenght);
-            
-            k = (int) fileRAFLayangLayang.getFilePointer();
-            fileRAFLayangLayang.setLength(dataLenght);
+            //SetLenght and Get Pointer dari File
+            k = (int) fileRAFLuasLayangLayang.getFilePointer();
+            fileRAFLuasLayangLayang.setLength(dataLenght);
+            //SetLenght and Get Pointer dari File
+            l = (int) fileRAFKelilingLayangLayang.getFilePointer();
+            fileRAFKelilingLayangLayang.setLength(dataLenght);
             index = 0;
             row = 0;
             while (j < fileRAFData.length()){
                 j+=4;
-                fileRAFData.seek(j);
-                System.out.print("Pointer File " + fileRAFData.getFilePointer() + "= ");
-                data = fileRAFData.read();
+                fileRAFData.seek(j);//Penyesesuaian Pointer
+                data = fileRAFData.read();//Membaca Data Diagonal 1 dari File
                 diagonal1[index] = data;
-                System.out.println(diagonal1[index] + "; ");
                 j++;
-                fileRAFData.seek(j);
-                System.out.print("Pointer File " + fileRAFData.getFilePointer() + "= ");
-                data = fileRAFData.read();
+                fileRAFData.seek(j);//Penyesesuaian Pointer
+                data = fileRAFData.read();//Membaca Data Diagonal 2 dari File
                 diagonal2[index] = data;
-                System.out.println(diagonal2[index] + "; ");
+                //Perhitungan Luas Dan Keliling
                 luasLayangLayang[row] = ((int)(diagonal1[index] * diagonal2[index] / 2)) ;
-                System.out.println("Luas LayangLayang adalah : "+luasLayangLayang[row]);
-                
+                kelilingLayangLayang[row] = ((int) (2*diagonal1[index]) + (2 * diagonal2[index])) ;
+                //Input Ke JTable Output View
                 outputView.tableLuasLayangLayang.insertRow(outputView.tableLuasLayangLayang.getRowCount(), new Object[]{
-                luasLayangLayang[row]
+                kelilingLayangLayang[row],luasLayangLayang[row]
                 });
-                
-                fileRAFLayangLayang.seek(k);
-                fileRAFLayangLayang.write(luasLayangLayang[row]);
+                System.out.print("Diagonal 1 " + fileRAFData.getFilePointer() + ": ");
+                System.out.println(diagonal1[index] + "; ");
+                System.out.print("Diagonal 2  " + fileRAFData.getFilePointer() + ": ");
+                System.out.println(diagonal2[index] + "; ");
+                System.out.print("Luas LayangLayang : "+luasLayangLayang[row]);
+                System.out.print("Keliling LayangLayang : "+kelilingLayangLayang[row]);
+                fileRAFLuasLayangLayang.seek(k);//Penyesesuaian Pointer
+                fileRAFLuasLayangLayang.write(luasLayangLayang[row]);//Menulis Hasil Luas Ke File
+                fileRAFKelilingLayangLayang.seek(l);//Penyesesuaian Pointer
+                fileRAFKelilingLayangLayang.write(kelilingLayangLayang[row]);//Menulis Hasil Luas Ke File
                 j+=3;
                 k++;
+                l++;
                 index++;
                 row++;
                 Thread.sleep(500);
             }
+            //Menutup File
             fileRAFData.close();
-            fileRAFLayangLayang.close();
+            fileRAFLuasLayangLayang.close();
+            fileRAFKelilingLayangLayang.close();
             System.out.println("-------------------------END PROCESS OF LAYANG LAYANG------------------------");
 
         } catch (ArithmeticException arithmeticException) {

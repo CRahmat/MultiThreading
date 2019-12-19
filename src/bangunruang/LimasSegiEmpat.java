@@ -55,21 +55,10 @@ public class LimasSegiEmpat extends Persegi implements Runnable{
             fileRAFPersegi = new RandomAccessFile("src\\saveData\\Luas-Persegi.dat", "rw");
             RAFLenght = new RandomAccessFile("src\\saveData\\Data-Lenght.dat", "rw");
 
-        }catch(FileNotFoundException fileNotFoundException){
-            JOptionPane.showMessageDialog(null, "File Tidak Ditemukan!!!");
-        }catch(Throwable throwable){
-            JOptionPane.showMessageDialog(null, throwable.getMessage());
-        }
-        try {
             RAFLenght.seek(0);
             dataLenght = RAFLenght.readInt();
             RAFLenght.close();   
-        }catch (IOException iOException) {
-            JOptionPane.showMessageDialog(null, iOException.getMessage());
-        }catch (Throwable throwable) {
-            JOptionPane.showMessageDialog(null, throwable.getMessage());
-        }
-        try {
+
             index = 0;
             tinggi = new Integer[dataLenght];
             luasPersegi = new Integer[dataLenght];

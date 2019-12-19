@@ -53,25 +53,14 @@ public class Bola extends Lingkaran implements Runnable{
             fileRAFLingkaran = new RandomAccessFile("src\\saveData\\Luas-Lingkaran.dat", "rw");
             RAFLenght = new RandomAccessFile("src\\saveData\\Data-Lenght.dat", "rw");
 
-        }catch(FileNotFoundException fileNotFoundException){
-            JOptionPane.showMessageDialog(null, "File Tidak Ditemukan!!!");
-        }catch(Throwable throwable){
-            JOptionPane.showMessageDialog(null, throwable.getMessage());
-        }
-        try {
             RAFLenght.seek(0);
             dataLenght = RAFLenght.readInt();
             RAFLenght.close();   
-        }catch (IOException iOException) {
-            JOptionPane.showMessageDialog(null, iOException.getMessage());
-        }catch (Throwable throwable) {
-            JOptionPane.showMessageDialog(null, throwable.getMessage());
-        }
-        try {
+
             index = 0;
             jarijari = new Integer[dataLenght];
             volumeBola = new Integer[dataLenght];
-            //-----------------------------------------------------------------------------------------------
+  
             j = (int) fileRAFData.getFilePointer();
             fileRAFData.setLength(dataLenght);
             

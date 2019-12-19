@@ -54,21 +54,10 @@ public class LimasSegiTiga extends Segitiga implements Runnable{
             fileRAFSegitiga = new RandomAccessFile("src\\saveData\\Luas-Segitiga.dat", "rw");
             RAFLenght = new RandomAccessFile("src\\saveData\\Data-Lenght.dat", "rw");
 
-        }catch(FileNotFoundException fileNotFoundException){
-            JOptionPane.showMessageDialog(null, "File Tidak Ditemukan!!!");
-        }catch(Throwable throwable){
-            JOptionPane.showMessageDialog(null, throwable.getMessage());
-        }
-        try {
             RAFLenght.seek(0);
             dataLenght = RAFLenght.readInt();
             RAFLenght.close();   
-        }catch (IOException iOException) {
-            JOptionPane.showMessageDialog(null, iOException.getMessage());
-        }catch (Throwable throwable) {
-            JOptionPane.showMessageDialog(null, throwable.getMessage());
-        }
-        try {
+
             index = 0;
             tinggi = new Integer[dataLenght];
             volumeLimasSegiTiga= new Integer[dataLenght];

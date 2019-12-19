@@ -10,99 +10,107 @@ import output.OutputView;
 
 public class PersegiPanjang extends Thread{
     OutputView outputView;
+    RandomAccessFile fileRAFData = null;
+    RandomAccessFile fileRAFKelilingPersegiPanjang = null;
+    RandomAccessFile fileRAFLuasPersegiPanjang = null;
+    RandomAccessFile RAFLenght = null;
     protected int dataLenght;
     protected static Integer[] luasPersegiPanjang;
+    protected static Integer[] kelilingPersegiPanjang;
     protected Integer[] panjang;
     protected Integer[] lebar;
     private int data;
     int j;
     int k;
+    int l;
     int index;
     int row;
-    RandomAccessFile fileRAFData = null;
-    RandomAccessFile fileRAFPersegiPanjang = null;
-    RandomAccessFile RAFLenght = null;
     
-    public PersegiPanjang(OutputView outputView){
-       this.outputView = outputView;
+    public PersegiPanjang(OutputView outputView){//Constructor dari Persegi Panjang Dengan Parameter OutputView 
+       this.outputView = outputView;           //Digunakan Untuk Input Hasil Perhitungan Ke View
     }
-    
+    //Override method run dikarenakan extends Threads
     @Override
+        //Badan Threads
     public void run() {
         try {
             Thread.sleep(2000);
             hitungLuas();
-        } catch (InterruptedException ex) {
-            Logger.getLogger(PersegiPanjang.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {//Exception Threads Terinterupsi
+           JOptionPane.showMessageDialog(null, ex.getMessage());        
         }
     }
     public synchronized void hitungLuas(){
 
         try {
             fileRAFData = new RandomAccessFile("src\\saveData\\Data-Bangun.dat", "rw");
-            fileRAFPersegiPanjang = new RandomAccessFile("src\\saveData\\Luas-PersegiPanjang.dat", "rw");
+            fileRAFLuasPersegiPanjang = new RandomAccessFile("src\\saveData\\2D\\Luas-PersegiPanjang.dat", "rw");
+            fileRAFKelilingPersegiPanjang = new RandomAccessFile("src\\saveData\\2D\\Luas-PersegiPanjang.dat", "rw");
             RAFLenght = new RandomAccessFile("src\\saveData\\Data-Lenght.dat", "rw");
 
-        }catch(FileNotFoundException fileNotFoundException){
-            JOptionPane.showMessageDialog(null, "File Tidak Ditemukan!!!");
-        }catch(Throwable throwable){
-            JOptionPane.showMessageDialog(null, throwable.getMessage());
-        }
-        try {
-            RAFLenght.seek(0);
-            dataLenght = RAFLenght.readInt();
+            RAFLenght.seek(0);//File Selalu Berada Pada File Pointer 0 (Hanya 1 Data)
+            dataLenght = RAFLenght.readInt();//Baca Lenght Dari File
             RAFLenght.close();   
-        }catch (IOException iOException) {
-            JOptionPane.showMessageDialog(null, iOException.getMessage());
-        }catch (Throwable throwable) {
-            JOptionPane.showMessageDialog(null, throwable.getMessage());
-        }
-        try {
             
             panjang = new Integer[dataLenght];
             lebar = new Integer[dataLenght];
-            //-----------------------------------------------------------------------------------------------
+            //Perhitungan Luas Dan Keliling
             luasPersegiPanjang = new Integer[dataLenght];
-            //-----------------------------------------------------------------------------------------------
+            kelilingPersegiPanjang = new Integer[dataLenght];
+            //SetLenght and Get Pointer dari File
             j = (int) fileRAFData.getFilePointer();
             fileRAFData.setLength(dataLenght);
-            k = (int) fileRAFPersegiPanjang.getFilePointer();
-            fileRAFPersegiPanjang.setLength(dataLenght);
+            //SetLenght and Get Pointer dari File
+            k = (int) fileRAFLuasPersegiPanjang.getFilePointer();
+            fileRAFLuasPersegiPanjang.setLength(dataLenght);
+            //SetLenght and Get Pointer dari File
+            l = (int) fileRAFKelilingPersegiPanjang.getFilePointer();
+            fileRAFKelilingPersegiPanjang.setLength(dataLenght);
             index = 0;
             row = 0;
             while (j < fileRAFData.length()){
-                fileRAFData.seek(j);
-                System.out.print("Pointer File " + fileRAFData.getFilePointer() + "= ");
-                data = fileRAFData.read();
+                fileRAFData.seek(j);//Penyesesuaian Pointer
+                data = fileRAFData.read();//Membaca Data Panjang Dari File
                 panjang[index] = data;
-                System.out.println(panjang[index] + "; ");
                 j++;
                 fileRAFData.seek(j);
-                System.out.print("Pointer File " + fileRAFData.getFilePointer() + "= ");
-                data = fileRAFData.read();
+                data = fileRAFData.read();//Membaca Data Lebar Dari File
                 lebar[index] = data;
-                System.out.println(lebar[index] + "; ");
+                
                 luasPersegiPanjang[row] = panjang[index] * lebar[index];
-                System.out.println("Luas PersegiPanjang adalah : "+luasPersegiPanjang[row]);
+                kelilingPersegiPanjang[row] = (2 * panjang[index]) + (2 * lebar[index]);
+                //Input Ke JTable Output View
                 outputView.tableLuasPersegiPanjang.insertRow(outputView.tableLuasPersegiPanjang.getRowCount(), new Object[]{
-                luasPersegiPanjang[row]
-                });
-                fileRAFPersegiPanjang.seek(k);
-                fileRAFPersegiPanjang.write(luasPersegiPanjang[row]);
+                kelilingPersegiPanjang[row],luasPersegiPanjang[row]
+                });//Input Ke JTable
+                //OUTPUT
+                System.out.print("Panjang " + fileRAFData.getFilePointer() + ": ");
+                System.out.println(panjang[index] + "; ");
+                System.out.print("Lebar   " + fileRAFData.getFilePointer() + ": ");
+                System.out.println(lebar[index] + "; ");
+                System.out.println("Luas PersegiPanjang     : "+kelilingPersegiPanjang[row]);
+                System.out.println("Keliling PersegiPanjang : "+kelilingPersegiPanjang[row]);
+                
+                fileRAFLuasPersegiPanjang.seek(k);//Penempatan Pointer Agar Data Tidak Tertimpa
+                fileRAFLuasPersegiPanjang.write(luasPersegiPanjang[row]);//Menulis Hasil Luas Ke File
+                fileRAFKelilingPersegiPanjang.seek(l);//Penempatan Pointer Agar Data Tidak Tertimpa
+                fileRAFKelilingPersegiPanjang.write(kelilingPersegiPanjang[row]);//Menulis Hasil Volume Ke File
                 j+=7;
                 k++;
+                l++;
                 index++;
                 row++;
                 Thread.sleep(500);
             }
             fileRAFData.close();
-            fileRAFPersegiPanjang.close();
+            fileRAFLuasPersegiPanjang.close();
+            fileRAFKelilingPersegiPanjang.close();
             System.out.println("-----------------------END PROCESS OF PERSEGI PANJANG----------------------");
 
         } catch (ArithmeticException arithmeticException) {
             JOptionPane.showMessageDialog(null, "Terdapat Pembagian Dengan Bilangan (NOL)!!!");
         } catch(Throwable throwable){
-            JOptionPane.showMessageDialog(null, "Error 404!!!");
+            JOptionPane.showMessageDialog(null,throwable.getMessage());
         }
     }
 }
