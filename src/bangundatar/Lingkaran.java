@@ -13,7 +13,7 @@ public class Lingkaran extends Thread {
     protected int dataLenght;
     protected static Integer[] luasLingkaran;
     protected static Integer[] kelilingLingkaran;
-    protected Integer[] jarijari;
+    protected static Integer[] jarijari;
     private int data;
     int j;
     int k;
@@ -33,7 +33,7 @@ public class Lingkaran extends Thread {
         //Badan Threads
     public void run() {
         try {
-            Thread.sleep(6000);
+            Thread.sleep(3000);
             hitungLuas();
         } catch (InterruptedException ex) {//Exception Threads Terinterupsi
             JOptionPane.showMessageDialog(null, ex.getMessage());        
@@ -92,7 +92,6 @@ public class Lingkaran extends Thread {
                 l++;
                 index++;
                 row++;
-                Thread.sleep(500);
             }
             //Menutup File
             fileRAFData.close();

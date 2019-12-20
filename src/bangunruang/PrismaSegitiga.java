@@ -20,85 +20,101 @@ import output.OutputView;
  */
 public class PrismaSegitiga extends Segitiga implements Runnable{
     OutputView outputView;
+    RandomAccessFile fileRAFData = null;
+    RandomAccessFile fileRAFLuasPermukaanPrisma = null;
+    RandomAccessFile fileRAFVolumePrisma = null;
+    RandomAccessFile RAFLenght = null;
     private int dataLenght;
-    private Integer[] luasSegitiga;
+    private Integer[] luasPermukaanPrisma;
     protected Integer[] volumePrisma;
     private Integer[] tinggi;
+    private Integer[] panjang;
     private int data;
-    private int dataLuas;
     int j;
     int k;
     int l;
     int index;
     int row;
-    RandomAccessFile fileRAFData = null;
-    RandomAccessFile fileRAFSegitiga = null;
-    RandomAccessFile RAFLenght = null;
-    public PrismaSegitiga(OutputView outputView) {
-        super(outputView);
-        this.outputView = outputView;
+    public PrismaSegitiga(OutputView outputView) { //Constructor dari Perisma Dengan Parameter OutputView
+        super(outputView);                         //Mengirimkan Parameter Output View ke Super Class
+        this.outputView = outputView;              //Digunakan Untuk Input Hasil Perhitungan Ke View
     }
+    //Override method run dikarenakan extends Threads
     @Override
+        //Badan Threads 
     public void run(){
         try {
-        Thread.sleep(5000);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(Kubus.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        Thread.sleep(13000);
         hitungVolume();
+        } catch (InterruptedException ex) {//Exception Threads Terinterupsi
+         JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
     }
     public synchronized void hitungVolume(){
         
         try {
+            //Instansiasi Obyek Random Access File
             fileRAFData = new RandomAccessFile("src\\saveData\\Data-Bangun.dat", "rw");
-            fileRAFSegitiga = new RandomAccessFile("src\\saveData\\Luas-Segitiga.dat", "rw");
+            fileRAFVolumePrisma = new RandomAccessFile("src\\saveData\\3D\\Volume-Prisma-Segitiga.dat", "rw");
+            fileRAFLuasPermukaanPrisma = new RandomAccessFile("src\\saveData\\3D\\Luas-Permukaan-Prisma-Segitiga.dat", "rw");
             RAFLenght = new RandomAccessFile("src\\saveData\\Data-Lenght.dat", "rw");
-
-            RAFLenght.seek(0);
-            dataLenght = RAFLenght.readInt();
-            RAFLenght.close();   
-
-            index = 0;
+            
+            RAFLenght.seek(0);//File Selalu Berada Pada File Pointer 0 (Hanya 1 Data)
+            dataLenght = RAFLenght.readInt();//Baca Lenght Dari File
+            RAFLenght.close();//Close File Lenght    
+            //Instansiasi Obyek untuk Perhitungan
             tinggi = new Integer[dataLenght];
-            luasSegitiga = new Integer[dataLenght];
+            panjang = new Integer[dataLenght];
+            luasPermukaanPrisma = new Integer[dataLenght];
             volumePrisma= new Integer[dataLenght];
-            //-----------------------------------------------------------------------------------------------
+            //SetLenght and Get Pointer dari File
             j = (int) fileRAFData.getFilePointer();
             fileRAFData.setLength(dataLenght);
-            
-            k = (int) fileRAFSegitiga.getFilePointer();
-            fileRAFSegitiga.setLength(dataLenght);
+            //SetLenght and Get Pointer dari File
+            k = (int) fileRAFVolumePrisma.getFilePointer();
+            fileRAFVolumePrisma.setLength(dataLenght);
+            //SetLenght and Get Pointer dari File
+            l = (int) fileRAFLuasPermukaanPrisma.getFilePointer();
+            fileRAFLuasPermukaanPrisma.setLength(dataLenght);
             index = 0;
             row = 0;
-            
             while (j < fileRAFData.length()){
+                fileRAFData.seek(j);//Penyesesuaian Pointer untuk Baca File
+                data = fileRAFData.read();//Membaca Panjang Prisma Dari File
+                panjang[index] = data;
                 j+=6;
-                fileRAFData.seek(j);
-                System.out.print("Pointer File " + fileRAFData.getFilePointer() + "= ");
-                data = fileRAFData.read();
+                fileRAFData.seek(j);//Penyesesuaian Pointer untuk Baca File
+                data = fileRAFData.read();//Membaca Tinggi Prisma Dari File
                 tinggi[index] = data;
+                //PERHITUNGAN LUAS PERMUKAAN DAN VOLUME
+                volumePrisma[row] = (int)(Segitiga.luasSegitiga[index]*tinggi[index] * 0.333333333);
+                luasPermukaanPrisma[row] = (int)((Segitiga.luasSegitiga[index]*panjang[index]) + (4*Segitiga.alas[index]*tinggi[index]));
+                //Menulis Hasil Perhitungan Ke File
+                fileRAFVolumePrisma.seek(k);//Penyesesuaian Pointer agar Data Tidak Tertimpa
+                fileRAFVolumePrisma.write(volumePrisma[row]);//Menuliskan Hasil Perhitungan Volume Ke File
+                fileRAFLuasPermukaanPrisma.seek(l);//Penyesesuaian Pointer agar Data Tidak Tertimpa
+                fileRAFLuasPermukaanPrisma.write(luasPermukaanPrisma[row]);//Menuliskan Hasil Perhitungan Luas Ke File
+                //OUTPUT KE MONITOR TANPA SWING
+                System.out.print("Tinggi Prisma                 " + fileRAFData.getFilePointer() + ": ");
                 System.out.println(tinggi[index] + "; ");
-                
-                fileRAFSegitiga.seek(k);
-                System.out.print("Pointer File " + fileRAFSegitiga.getFilePointer() + "= ");
-                dataLuas = fileRAFSegitiga.read();
-                luasSegitiga[index] = dataLuas;
-
-                volumePrisma[row] = (int)(super.luasSegitiga[index]*tinggi[index] * 0.333333333);
-                System.out.println("Volume Limas Segi Tiga adalah : "+volumePrisma[row]);
-                
+                System.out.print("Panjang Prisma                " + fileRAFData.getFilePointer() + ": ");
+                System.out.println(panjang[index] + "; ");
+                System.out.println("Volume Limas Segi Tiga      : "+volumePrisma[row]);
+                System.out.println("L.Permukaan Limas Segi Tiga : "+luasPermukaanPrisma[row]);
+                //INPUT KE JTABLE
                 outputView.tableVolumePrisma.insertRow(outputView.tableVolumePrisma.getRowCount(), new Object[]{
-                volumePrisma[row]
+                luasPermukaanPrisma[row],volumePrisma[row]
                 });
-                
                 j+=2;
                 k++;
+                l++;
                 index++;
                 row++;
-                Thread.sleep(500);
             }
+             //MENUTUP FILE
             fileRAFData.close();
-            fileRAFSegitiga.close();
+            fileRAFLuasPermukaanPrisma.close();
+            fileRAFVolumePrisma.close();
             System.out.println("--------------------------END PROCESS OF PRISMA 3--------------------------");
         } catch (ArithmeticException arithmeticException) {
             JOptionPane.showMessageDialog(null, "Terdapat Pembagian Dengan Bilangan (NOL)!!!");

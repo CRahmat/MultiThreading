@@ -17,8 +17,8 @@ public class PersegiPanjang extends Thread{
     protected int dataLenght;
     protected static Integer[] luasPersegiPanjang;
     protected static Integer[] kelilingPersegiPanjang;
-    protected Integer[] panjang;
-    protected Integer[] lebar;
+    protected static Integer[] panjang;
+    protected static Integer[] lebar;
     private int data;
     int j;
     int k;
@@ -34,7 +34,7 @@ public class PersegiPanjang extends Thread{
         //Badan Threads
     public void run() {
         try {
-            Thread.sleep(2000);
+            Thread.sleep(1000);
             hitungLuas();
         } catch (InterruptedException ex) {//Exception Threads Terinterupsi
            JOptionPane.showMessageDialog(null, ex.getMessage());        
@@ -100,7 +100,6 @@ public class PersegiPanjang extends Thread{
                 l++;
                 index++;
                 row++;
-                Thread.sleep(500);
             }
             fileRAFData.close();
             fileRAFLuasPersegiPanjang.close();

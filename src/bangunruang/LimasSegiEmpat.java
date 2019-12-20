@@ -21,84 +21,99 @@ import output.OutputView;
  */
 public class LimasSegiEmpat extends Persegi implements Runnable{
     OutputView outputView;
+    RandomAccessFile fileRAFData = null;
+    RandomAccessFile fileRAFLuasPermukaanLimas = null;
+    RandomAccessFile fileRAFVolumeLimas = null;
+    RandomAccessFile RAFLenght = null;
     private int dataLenght;
-    private Integer[] luasPersegi;
     protected Integer[] volumeLimasSegiEmpat;
+    protected Integer[] luasPermukaanLimasSegiEmpat;
     private Integer[] tinggi;
+    private int tinggiSegitiga;
     private int data;
-    private int dataLuas;
     int j;
     int k;
     int l;
     int index;
     int row;
-    RandomAccessFile fileRAFData = null;
-    RandomAccessFile fileRAFPersegi = null;
-    RandomAccessFile RAFLenght = null;
-    public LimasSegiEmpat(OutputView outputView) {
-        super(outputView);
-        this.outputView = outputView;
+    public LimasSegiEmpat(OutputView outputView) {//Constructor dari Limas Dengan Parameter OutputView
+        super(outputView);                        //Mengirimkan Parameter Output View ke Super Class
+        this.outputView = outputView;              //Digunakan Untuk Input Hasil Perhitungan Ke View
     }
+    //Override method run dikarenakan extends Threads
     @Override
+        //Badan Threads
     public void run(){
         try {
-        Thread.sleep(1000);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(Kubus.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        Thread.sleep(15000);
         hitungVolume();
+        } catch (InterruptedException ex) {//Exception Threads Terinterupsi
+        JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
     }
     public synchronized void hitungVolume(){
         
         try {
+            //Instansiasi Obyek Random Access File
             fileRAFData = new RandomAccessFile("src\\saveData\\Data-Bangun.dat", "rw");
-            fileRAFPersegi = new RandomAccessFile("src\\saveData\\Luas-Persegi.dat", "rw");
+            fileRAFLuasPermukaanLimas = new RandomAccessFile("src\\saveData\\3D\\Luas-Permukaan-Limas-SegiEmpat.dat", "rw");
+            fileRAFVolumeLimas = new RandomAccessFile("src\\saveData\\3D\\Volume-Limas-SegiEmpat.dat", "rw");
             RAFLenght = new RandomAccessFile("src\\saveData\\Data-Lenght.dat", "rw");
-
-            RAFLenght.seek(0);
-            dataLenght = RAFLenght.readInt();
-            RAFLenght.close();   
-
-            index = 0;
+            
+            RAFLenght.seek(0);//File Selalu Berada Pada File Pointer 0 (Hanya 1 Data)
+            dataLenght = RAFLenght.readInt();//Baca Lenght Dari File
+            RAFLenght.close();//Close File Lenght    
+            //Instansiasi Obyek untuk Perhitungan
             tinggi = new Integer[dataLenght];
-            luasPersegi = new Integer[dataLenght];
             volumeLimasSegiEmpat= new Integer[dataLenght];
-            //-----------------------------------------------------------------------------------------------
+            luasPermukaanLimasSegiEmpat= new Integer[dataLenght];
+            
+            //SetLenght and Get Pointer dari File
             j = (int) fileRAFData.getFilePointer();
             fileRAFData.setLength(dataLenght);
-            
-            k = (int) fileRAFPersegi.getFilePointer();
-            fileRAFPersegi.setLength(dataLenght);
+            //SetLenght and Get Pointer dari File
+            k = (int) fileRAFVolumeLimas.getFilePointer();
+            fileRAFVolumeLimas.setLength(dataLenght);
+            //SetLenght and Get Pointer dari File
+            l = (int) fileRAFLuasPermukaanLimas.getFilePointer();
+            fileRAFLuasPermukaanLimas.setLength(dataLenght);
             index = 0;
             row = 0;
             while (j < fileRAFData.length()){
                 j+=6;
-                fileRAFData.seek(j);
-                System.out.print("Pointer File " + fileRAFData.getFilePointer() + "= ");
-                data = fileRAFData.read();
+                fileRAFData.seek(j);//Penyesesuaian Pointer untuk Baca File
+                data = fileRAFData.read();//Membaca Tinggi Dari File
                 tinggi[index] = data;
+                //PERHITUNGAN LUAS PERMUKAAN DAN VOLUME
+                volumeLimasSegiEmpat[row] = (int)(Persegi.luasPersegi[index]*tinggi[index] * 0.333333333);
+                //Menghitung Tinggi Segitiga Dengan Pythagoras
+                tinggiSegitiga = 0;
+                tinggiSegitiga = (int) Math.sqrt((Math.pow((Persegi.sisi[index]/2), 2)) + (Math.pow(tinggi[index], 2)));
+                luasPermukaanLimasSegiEmpat[row] = (int)(Persegi.luasPersegi[index] + ((Persegi.sisi[index]/2) *tinggiSegitiga));
+                //Menulis Hasil Perhitungan Ke File
+                fileRAFVolumeLimas.seek(k);//Penyesesuaian Pointer agar Data Tidak Tertimpa
+                fileRAFVolumeLimas.write(volumeLimasSegiEmpat[row]);//Menuliskan Hasil Perhitungan Volume Ke File
+                fileRAFLuasPermukaanLimas.seek(l);//Penyesesuaian Pointer agar Data Tidak Tertimpa
+                fileRAFLuasPermukaanLimas.write(luasPermukaanLimasSegiEmpat[row]);//Menuliskan Hasil Perhitungan Luas Ke File
+                //OUTPUT KE MONITOR TANPA SWING
+                System.out.print("Tinggi Limas                   " + fileRAFData.getFilePointer() + ": ");
                 System.out.println(tinggi[index] + "; ");
-                
-                fileRAFPersegi.seek(k);
-                System.out.print("Pointer File " + fileRAFPersegi.getFilePointer() + "= ");
-                dataLuas = fileRAFPersegi.read();
-                luasPersegi[index] = dataLuas;
-
-                volumeLimasSegiEmpat[row] = (int)(super.luasPersegi[index]*tinggi[index] * 0.333333333);
-                System.out.println("Volume Limas Segi Empat adalah : "+volumeLimasSegiEmpat[row]);
-                
+                System.out.println("Volume Limas Segi Empat      : "+volumeLimasSegiEmpat[row]);
+                System.out.println("L.Permukaan Limas Segi Empat : "+luasPermukaanLimasSegiEmpat[row]);
+                //INPUT KE JTABLE
                 outputView.tableVolumeLimasSegiEmpat.insertRow(outputView.tableVolumeLimasSegiEmpat.getRowCount(), new Object[]{
-                volumeLimasSegiEmpat[row]
+                luasPermukaanLimasSegiEmpat[row],volumeLimasSegiEmpat[row]
                 });
-                
                 j+=2;
                 k++;
+                l++;
                 index++;
                 row++;
-                Thread.sleep(500);
             }
+             //MENUTUP FILE
             fileRAFData.close();
-            fileRAFPersegi.close();
+            fileRAFLuasPermukaanLimas.close();
+            fileRAFVolumeLimas.close();
             System.out.println("--------------------------END PROCESS OF LIMAS 4--------------------------");
         } catch (ArithmeticException arithmeticException) {
             JOptionPane.showMessageDialog(null, "Terdapat Pembagian Dengan Bilangan (NOL)!!!");

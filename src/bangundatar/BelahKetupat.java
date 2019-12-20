@@ -34,7 +34,7 @@ public class BelahKetupat extends Thread{
     //Badan Threads
     public void run() {
         try {
-            Thread.sleep(1000);
+            Thread.sleep(4000);
             hitungLuas();
         } catch (InterruptedException ex) {//Exception Threads Terinterupsi
             JOptionPane.showMessageDialog(null, ex.getMessage());

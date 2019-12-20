@@ -20,86 +20,94 @@ import output.OutputView;
  */
 public class Balok extends PersegiPanjang implements Runnable{
     OutputView outputView;
+    RandomAccessFile fileRAFData = null;
+    RandomAccessFile fileRAFLPermukaanBalok = null;
+    RandomAccessFile fileRAFVolumeBalok = null;
+    RandomAccessFile RAFLenght = null;
     private int dataLenght;
-    private Integer[] luasPersegiPanjang;
+    private Integer[] luasPermukaanBalok;
     protected Integer[] volumeBalok;
     protected Integer[] tinggi;
     private int data;
-    private int dataLuas;
     int j;
     int k;
     int l;
     int index;
     int row;
-    RandomAccessFile fileRAFData = null;
-    RandomAccessFile fileRAFPersegiPanjang = null;
-    RandomAccessFile RAFLenght = null;
-    public Balok(OutputView outputView) {
-        super(outputView);
-        this.outputView = outputView;
+    public Balok(OutputView outputView) {//Constructor dari Balok Dengan Parameter OutputView 
+        super(outputView); //Mengirimkan Parameter Output View ke Super Class
+        this.outputView = outputView;    //Digunakan Untuk Input Hasil Perhitungan Ke View
     }
+    //Override method run dikarenakan extends Threads
     @Override
+        //Badan Threads
     public void run(){
         try {
-        Thread.sleep(3000);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(Kubus.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        Thread.sleep(9000);
         hitungVolume();
+        } catch (InterruptedException ex) {//Exception Threads Terinterupsi
+        JOptionPane.showMessageDialog(null, ex.getMessage());        
+        }
     }
     public synchronized void hitungVolume(){
-        
         try {
+            //Instansiasi Obyek Random Access File
             fileRAFData = new RandomAccessFile("src\\saveData\\Data-Bangun.dat", "rw");
-            fileRAFPersegiPanjang = new RandomAccessFile("src\\saveData\\Luas-PersegiPanjang.dat", "rw");
+            fileRAFLPermukaanBalok = new RandomAccessFile("src\\saveData\\3D\\Luas-Permukaan-Balok.dat", "rw");
+            fileRAFVolumeBalok = new RandomAccessFile("src\\saveData\\3D\\Volume-Balok.dat", "rw");
             RAFLenght = new RandomAccessFile("src\\saveData\\Data-Lenght.dat", "rw");
-
-            RAFLenght.seek(0);
-            dataLenght = RAFLenght.readInt();
-            RAFLenght.close();   
-
-            index = 0;
-            tinggi = new Integer[dataLenght];
-            luasPersegiPanjang = new Integer[dataLenght];
-            volumeBalok = new Integer[dataLenght];
             
+            RAFLenght.seek(0);//File Selalu Berada Pada File Pointer 0 (Hanya 1 Data)
+            dataLenght = RAFLenght.readInt();//Baca Lenght Dari File
+            RAFLenght.close();//Close File Lenght    
+            //Instansiasi Obyek untuk Perhitungan
+            tinggi = new Integer[dataLenght];
+            volumeBalok = new Integer[dataLenght];
+            luasPermukaanBalok = new Integer[dataLenght];
+            //SetLenght and Get Pointer dari File
             j = (int) fileRAFData.getFilePointer();
             fileRAFData.setLength(dataLenght);
-            
-            k = (int) fileRAFPersegiPanjang.getFilePointer();
-            fileRAFPersegiPanjang.setLength(dataLenght);
+            //SetLenght and Get Pointer dari File
+            k = (int) fileRAFVolumeBalok.getFilePointer();
+            fileRAFVolumeBalok.setLength(dataLenght);
+            //SetLenght and Get Pointer dari File
+            l = (int) fileRAFLPermukaanBalok.getFilePointer();
+            fileRAFLPermukaanBalok.setLength(dataLenght);
             
             index = 0;
             row = 0;
-            
             while (j < fileRAFData.length()){
                 j+=6;
-                fileRAFData.seek(j);
-                System.out.print("Pointer File " + fileRAFData.getFilePointer() + "= ");
-                data = fileRAFData.read();
+                fileRAFData.seek(j);//Penyesesuaian Pointer untuk Baca File
+                data = fileRAFData.read();//Membaca Tinggi dari File
                 tinggi[index] = data;
+                //PERHITUNGAN LUAS PERMUKAAN DAN VOLUME
+                volumeBalok[row] = PersegiPanjang.luasPersegiPanjang[index]*tinggi[index];
+                luasPermukaanBalok[row] = (PersegiPanjang.luasPersegiPanjang[index]*4)+(PersegiPanjang.lebar[index] * tinggi[index] * 2);
+                //Penyesesuaian Pointer untuk Baca File
+                fileRAFVolumeBalok.seek(k);//Penyesesuaian Pointer agar Data Tidak Tertimpa
+                fileRAFVolumeBalok.writeInt(volumeBalok[row]);//Menuliskan Hasil Perhitungan Volume Ke File
+                fileRAFLPermukaanBalok.seek(l);//Penyesesuaian Pointer agar Data Tidak Tertimpa
+                fileRAFLPermukaanBalok.writeInt(luasPermukaanBalok[row]);//Menuliskan Hasil Perhitungan Luas Ke File
+                //OUTPUT KE MONITOR TANPA SWING
+                System.out.print("Tinggi Balok         " + fileRAFData.getFilePointer() + ": ");
                 System.out.println(tinggi[index] + "; ");
-                
-                fileRAFPersegiPanjang.seek(k);
-                System.out.print("Pointer File " + fileRAFPersegiPanjang.getFilePointer() + "= ");
-                dataLuas = fileRAFPersegiPanjang.read();
-                luasPersegiPanjang[index] = dataLuas;
-
-                volumeBalok[row] = super.luasPersegiPanjang[index]*tinggi[index];
-                System.out.println("Volume Kubus adalah : "+volumeBalok[row]);
-                
+                System.out.println("Volume Balok      : "+volumeBalok[row]);
+                System.out.println("L.Permukaan Balok : "+luasPermukaanBalok[row]);
+                //INPUT KE JTABLE
                 outputView.tableVolumeBalok.insertRow(outputView.tableVolumeBalok.getRowCount(), new Object[]{
-                volumeBalok[row]
+                luasPermukaanBalok[row],volumeBalok[row]
                 });
-                
                 j+=2;
                 k++;
+                l++;
                 index++;
                 row++;
-                Thread.sleep(500);
             }
+             //MENUTUP FILE
             fileRAFData.close();
-            fileRAFPersegiPanjang.close();
+            fileRAFLPermukaanBalok.close();
+            fileRAFVolumeBalok.close();
             System.out.println("--------------------------END PROCESS OF BALOK--------------------------");
         } catch (ArithmeticException arithmeticException) {
             JOptionPane.showMessageDialog(null, "Terdapat Pembagian Dengan Bilangan (NOL)!!!");

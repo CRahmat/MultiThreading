@@ -25,7 +25,10 @@ import bangunruang.Tabung;
  * @author Catur Rahmat
  */
 public class MVCOutput {
+    //MVC Output throws InterruptedException karena terdapat Instansiasi Obyek yang extends ke Class Threads
     public MVCOutput() throws InterruptedException {
+        //Instansiasi  Obyek Di Lakukan Pada MVCOutput Dikarenakan Ketika Masuk Menu Output Maka Program Akan
+        //Menjalankan semua Threads atau Class 2D dan 3D yang akan di eksekusi oleh Output Controller
         OutputView outputView = new OutputView();
         Persegi persegi = new Persegi(outputView);
         PersegiPanjang persegiPanjang = new PersegiPanjang(outputView);
@@ -44,5 +47,8 @@ public class MVCOutput {
         LimasSegiTiga limasSegiTiga = new LimasSegiTiga(outputView);
         LimasSegiEmpat limasSegiEmpat = new LimasSegiEmpat(outputView);
         OutputController outputController = new OutputController(outputView, persegi,persegiPanjang,segitiga,lingkaran,belahKetupat,jajarGenjang,trapesium,layangLayang,kubus,balok,tabung,kerucut,bola,prismaSegitiga,limasSegiTiga,limasSegiEmpat);
+        //Instansiasi Obyek Output Controller
+        //Output Controller dengan parameter Output View untuk Menghubungkan View dan Controller(Event Handling)
+        
     }
 }

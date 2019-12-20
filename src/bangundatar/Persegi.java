@@ -17,7 +17,7 @@ public class Persegi extends Thread{
     protected int dataLenght;
     protected static Integer[] luasPersegi;
     protected static Integer[] kelilingPersegi;
-    protected Integer[] sisi;
+    protected static Integer[] sisi;
     private int data;
     int j;
     int k;
@@ -85,7 +85,6 @@ public class Persegi extends Thread{
                 l++;
                 index++;
                 row++;
-                Thread.sleep(100);
             }
             //Menutup File
             fileRAFData.close();//Close File Data

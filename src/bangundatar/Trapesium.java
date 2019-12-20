@@ -35,7 +35,7 @@ public class Trapesium extends Thread{
         //Badan Threads
     public void run() {
         try {
-            Thread.sleep(3000);
+            Thread.sleep(6000);
             hitungLuas();
         } catch (InterruptedException ex) {//Exception Threads Terinterupsi
             JOptionPane.showMessageDialog(null, ex.getMessage());                   }
@@ -106,7 +106,6 @@ public class Trapesium extends Thread{
                 l++;
                 index++;
                 row++;
-                Thread.sleep(500);
             }
             //Menutup File
             fileRAFData.close();

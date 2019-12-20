@@ -17,8 +17,8 @@ public class Segitiga extends Thread {
     protected int dataLenght;
     protected static Integer[] luasSegitiga;
     protected static Integer[] kelilingSegitiga;
-    protected Integer[] alas;
-    protected Integer[] tinggi;
+    protected static Integer[] alas;
+    protected static Integer[] tinggi;
     private int data;
     int j;
     int k;
@@ -33,7 +33,7 @@ public class Segitiga extends Thread {
         //Badan Threads
     public void run() {
         try {
-            Thread.sleep(4000);
+            Thread.sleep(2000);
             hitungLuas();
         } catch (InterruptedException ex) {//Exception Threads Terinterupsi
             JOptionPane.showMessageDialog(null, ex.getMessage());
@@ -95,7 +95,6 @@ public class Segitiga extends Thread {
                 l++;
                 index++;
                 row++;
-                Thread.sleep(500);
             }
             fileRAFData.close();
             fileRAFLuasSegitiga.close();

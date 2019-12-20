@@ -27,13 +27,14 @@ public class DataListController{
     RandomAccessFile fileRAFData = null;
     RandomAccessFile RAFLenght = null;
     
-    public DataListController(DataListView dataListView) {
+    public DataListController(DataListView dataListView) {//Constructor dari Data List
         this.dataListView = dataListView;
         getListData();
-        this.dataListView.lback.addMouseListener(new MouseAdapter() {
+        this.dataListView.lback.addMouseListener(new MouseAdapter() {//Event Handling tombol back pada Data List
             @Override
             public void mouseClicked(MouseEvent me) {
                 dataListView.frame.setVisible(false);
+                //Ketika Tombol back Di Klik Maka Tampilan Dari Data List akan Di tutup
             }
         });
     }
@@ -41,13 +42,12 @@ public class DataListController{
         try {
             fileRAFData = new RandomAccessFile("src\\saveData\\Data-Bangun.dat", "rw");
             RAFLenght = new RandomAccessFile("src\\saveData\\Data-Lenght.dat", "rw");
+            RAFLenght.seek(0);//File Selalu Berada Pada File Pointer 0 (Hanya 1 Data)
+            dataLenght = RAFLenght.readInt();//Baca Lenght Dari File
+            RAFLenght.close();//Close File Lenght   
 
-            RAFLenght.seek(0);
-            dataLenght = RAFLenght.readInt();
-            RAFLenght.close();   
-
-            Integer[] panjang1 = new Integer[dataLenght];//kalau trapesium ini sisi sejajar kedua
-            Integer[] panjang2 = new Integer[dataLenght];//kalau trapesium ini sisi sejajar kedua
+            Integer[] panjang1 = new Integer[dataLenght];
+            Integer[] panjang2 = new Integer[dataLenght];
             Integer[] lebar1 = new Integer[dataLenght];
             Integer[] lebar2 = new Integer[dataLenght];
             Integer[] diagonal1 = new Integer[dataLenght];
@@ -56,34 +56,34 @@ public class DataListController{
             Integer[] jariJari = new Integer[dataLenght];
             //-----------------------------------------------------------------------------------------------
             j = (int)fileRAFData.getFilePointer();
-            fileRAFData.setLength(dataLenght);
-            
+            fileRAFData.setLength(dataLenght);//Mengatur File Lenght
             index = 0;
             while (j < fileRAFData.length()) {
-                fileRAFData.seek(j);
-                panjang1[index] = fileRAFData.read();//ini yang paling penting untuk baca data dari RAF 
+                fileRAFData.seek(j);//Penyesesuaian Pointer untuk Baca File
+                panjang1[index] = fileRAFData.read();//Membaca data Panjang 1 dari File 
                 j++;
-                fileRAFData.seek(j);
-                panjang2[index] = fileRAFData.read();//ini yang paling penting untuk baca data dari RAF
+                fileRAFData.seek(j);//Penyesesuaian Pointer untuk Baca File
+                panjang2[index] = fileRAFData.read();//Membaca data Panjang 2 dari File
                 j++;
-                fileRAFData.seek(j);
-                lebar1[index] = fileRAFData.read();//ini yang paling penting untuk baca data dari RAF
+                fileRAFData.seek(j);//Penyesesuaian Pointer untuk Baca File
+                lebar1[index] = fileRAFData.read();//Membaca data Lebar 1 dari File
                 j++;
-                fileRAFData.seek(j);
-                lebar2[index] = fileRAFData.read();//ini yang paling penting untuk baca data dari RAF
+                fileRAFData.seek(j);//Penyesesuaian Pointer untuk Baca File
+                lebar2[index] = fileRAFData.read();//Membaca data Lebar 2 dari File
                 j++;
-                fileRAFData.seek(j);
-                diagonal1[index] = fileRAFData.read();//ini yang paling penting untuk baca data dari RAF
+                fileRAFData.seek(j);//Penyesesuaian Pointer untuk Baca File
+                diagonal1[index] = fileRAFData.read();//Membaca data Diagonal 1 dari File
                 j++;
-                fileRAFData.seek(j);
-                diagonal2[index] = fileRAFData.read();//ini yang paling penting untuk baca data dari RAF
+                fileRAFData.seek(j);//Penyesesuaian Pointer untuk Baca File
+                diagonal2[index] = fileRAFData.read();//Membaca data Diagonal 2 1 dari File
                 j++;
-                fileRAFData.seek(j);
-                tinggi[index] = fileRAFData.read();//ini yang paling penting untuk baca data dari RAF
+                fileRAFData.seek(j);//Penyesesuaian Pointer untuk Baca File
+                tinggi[index] = fileRAFData.read();//Membaca data Tinggi dari File
                 j++;
-                fileRAFData.seek(j);
-                jariJari[index] = fileRAFData.read();//ini yang paling penting untuk baca data dari RAF
+                fileRAFData.seek(j);//Penyesesuaian Pointer untuk Baca File
+                jariJari[index] = fileRAFData.read();//Membaca data Jari Jari 1 dari File
                 j++;
+                //INPUT DATA KE DALAM JTABLE
                 dataListView.dataInput.insertRow(dataListView.dataInput.getRowCount(), new Object[]{
                 index+1,panjang1[index], panjang2[index], lebar1[index], lebar2[index], diagonal1[index], diagonal2[index], tinggi[index], jariJari[index]
                 });

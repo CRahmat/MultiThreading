@@ -20,83 +20,88 @@ import output.OutputView;
  */
 public class Bola extends Lingkaran implements Runnable{
     OutputView outputView;
+    RandomAccessFile fileRAFData = null;
+    RandomAccessFile fileRAFLuasPermukaanBola = null;
+    RandomAccessFile fileRAFVolumeBola = null;
+    RandomAccessFile RAFLenght = null;
     private int dataLenght;
     protected Integer[] volumeBola;
-    private Integer[] jarijari;
+    protected Integer[] luasPermukaanBola;
     private int data;
-    private int dataLuas;
     int j;
     int k;
     int l;
     int index;
     int row;
-    RandomAccessFile fileRAFData = null;
-    RandomAccessFile fileRAFLingkaran = null;
-    RandomAccessFile RAFLenght = null;
-    public Bola(OutputView outputView) {
-        super(outputView);
-        this.outputView = outputView;
+    public Bola(OutputView outputView) {//Constructor Dari Bola dengan Parameter Output View
+        super(outputView);             //Mengirimkan Parameter Output View ke Super Class
+        this.outputView = outputView;   //Digunakan Untuk Input Hasil Perhitungan Ke View
     }
+    //Override method run dikarenakan extends Threads
     @Override
+        //Badan Threads
     public void run(){
         try {
-        Thread.sleep(7000);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(Kubus.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        Thread.sleep(12000);
         hitungVolume();
+        } catch (InterruptedException ex) {//Exception Threads Terinterupsi
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
     }
     public synchronized void hitungVolume(){
         
         try {
+            //Instansiasi Obyek Random Access File
             fileRAFData = new RandomAccessFile("src\\saveData\\Data-Bangun.dat", "rw");
-            fileRAFLingkaran = new RandomAccessFile("src\\saveData\\Luas-Lingkaran.dat", "rw");
+            fileRAFLuasPermukaanBola = new RandomAccessFile("src\\saveData\\3D\\Luas-Permukaan-Bola.dat", "rw");
+            fileRAFVolumeBola = new RandomAccessFile("src\\saveData\\3D\\Volume-Bola.dat", "rw");
             RAFLenght = new RandomAccessFile("src\\saveData\\Data-Lenght.dat", "rw");
-
-            RAFLenght.seek(0);
-            dataLenght = RAFLenght.readInt();
-            RAFLenght.close();   
-
-            index = 0;
-            jarijari = new Integer[dataLenght];
+            
+            RAFLenght.seek(0);//File Selalu Berada Pada File Pointer 0 (Hanya 1 Data)
+            dataLenght = RAFLenght.readInt();//Baca Lenght Dari File
+            RAFLenght.close();//Close File Lenght    
+            //Instansiasi Obyek untuk Perhitungan
             volumeBola = new Integer[dataLenght];
-  
+            luasPermukaanBola = new Integer[dataLenght];
+            //SetLenght and Get Pointer dari File
             j = (int) fileRAFData.getFilePointer();
             fileRAFData.setLength(dataLenght);
-            
-            k = (int) fileRAFLingkaran.getFilePointer();
-            fileRAFLingkaran.setLength(dataLenght);
+            //SetLenght and Get Pointer dari File
+            k = (int) fileRAFVolumeBola.getFilePointer();
+            fileRAFVolumeBola.setLength(dataLenght);
+            //SetLenght and Get Pointer dari File
+            l = (int) fileRAFLuasPermukaanBola.getFilePointer();
+            fileRAFLuasPermukaanBola.setLength(dataLenght);
             index = 0;
             row = 0;
-            
             while (j < fileRAFData.length()){
-                j+=7;
-                fileRAFData.seek(j);
-                System.out.print("Pointer File " + fileRAFData.getFilePointer() + "= ");
-                data = fileRAFData.read();
-                jarijari[index] = data;
-                System.out.println(jarijari[index] + "; ");
-                
-                fileRAFLingkaran.seek(k);
-                System.out.print("Pointer File " + fileRAFLingkaran.getFilePointer() + "= ");
-                dataLuas = fileRAFLingkaran.read();
-                luasLingkaran[index] = dataLuas;
-
-                volumeBola[row] = (int)(Lingkaran.luasLingkaran[index]*jarijari[index] * (0.75));
-                System.out.println("Volume Bola adalah : "+volumeBola[row]);
-                
+                //PERHITUNGAN LUAS PERMUKAAN DAN VOLUME
+                volumeBola[row] = (int)(Lingkaran.luasLingkaran[index]*Lingkaran.jarijari[index] * (0.75));
+                luasPermukaanBola[row] = (int)(Lingkaran.luasLingkaran[index]*4);
+                //Menulis Hasil Perhitungan Ke File
+                fileRAFVolumeBola.seek(k);//Penyesesuaian Pointer agar Data Tidak Tertimpa
+                fileRAFVolumeBola.write(volumeBola[row]);//Menuliskan Hasil Perhitungan Volume Ke File
+                fileRAFLuasPermukaanBola.seek(k);//Penyesesuaian Pointer agar Data Tidak Tertimpa
+                fileRAFLuasPermukaanBola.write(luasPermukaanBola[row]);//Menuliskan Hasil Perhitungan Luas Ke File
+                //INPUT KE JTABLE
                 outputView.tableVolumeBola.insertRow(outputView.tableVolumeBola.getRowCount(), new Object[]{
-                volumeBola[row]
+                luasPermukaanBola[row],volumeBola[row]
                 });
-                
-                j+=1;
+                //OUTPUT KE MONITOR TANPA SWING
+                System.out.print("Jari Jari Lingkaran   : ");
+                System.out.println(Lingkaran.jarijari[index] + "; ");
+                System.out.println("Volume Bola         : "+volumeBola[row]);
+                System.out.println("Luas Permukaan Bola : "+volumeBola[row]);
+                j+=8;
                 k++;
+                l++;
                 index++;
                 row++;
-                Thread.sleep(500);
             }
+             //MENUTUP FILE
             fileRAFData.close();
-            fileRAFLingkaran.close();
+            fileRAFLuasPermukaanBola.close();
+            fileRAFVolumeBola.close();
             System.out.println("--------------------------END PROCESS OF BOLA--------------------------");
         } catch (ArithmeticException arithmeticException) {
             JOptionPane.showMessageDialog(null, "Terdapat Pembagian Dengan Bilangan (NOL)!!!");

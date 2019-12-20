@@ -12,7 +12,8 @@ import bangundatar.Persegi;
  */
 public class MVCInput {
     public MVCInput() {
-        InputView inputView = new InputView();
-        InputController inputController = new InputController(inputView);
+        InputView inputView = new InputView();//Instansiasi Obyek Input View
+        InputController inputController = new InputController(inputView);//Instansiasi Obyek Input Controller
+        //Input Controller dengan parameter Input View untuk Menghubungkan View dan Controller(Event Handling)
     }
 }

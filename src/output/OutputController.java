@@ -87,17 +87,19 @@ public class OutputController {
         limasSegiTiga.start();
         limasSegiEmpat.start();
         
-        outputView.pback.addMouseListener(new MouseAdapter() {
+        outputView.pback.addMouseListener(new MouseAdapter() {//Action Listener Tombol Back
             @Override
             public void mouseClicked(MouseEvent me) {
-                outputView.frame.setVisible(false);
-                new VCMainMenu();
+                outputView.frame.setVisible(false);//Menyembunyikan Tampilan Input Dari Monitor
+                new VCMainMenu();//Instansiasi Obyek VCMain Menu Digunakan Untuk Memanggil Tampilan Utama Dan controller Tampilan Utama
             }
         });
-        outputView.pdataList.addMouseListener(new MouseAdapter() {
+        outputView.pdataList.addMouseListener(new MouseAdapter() {//Action Listener Tombol Back
             @Override
-            public void mouseClicked(MouseEvent me) {
-                new VCDataList();
+            public void mouseClicked(MouseEvent me) {//Event Handler dari Mouse
+                new VCDataList();//Instansiasi Obyek VCMain Menu Digunakan Untuk Memanggil Tampilan List Data Dan controller List Data
+                //List Data Digunakan Untuk Menampilkan Data Random Yang Tersimpan
+                //Ketika Menampilkan List Data Maka Threads Akan Tetap Di Jalankan
             }
         });
 

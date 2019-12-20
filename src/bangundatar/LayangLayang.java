@@ -34,7 +34,7 @@ public class LayangLayang extends Thread {
         //Badan Threads
     public void run() {
         try {
-            Thread.sleep(4000);
+            Thread.sleep(5000);
             hitungLuas();
         } catch (InterruptedException ex) {//Exception Threads Terinterupsi
            JOptionPane.showMessageDialog(null, ex.getMessage());
@@ -98,7 +98,6 @@ public class LayangLayang extends Thread {
                 l++;
                 index++;
                 row++;
-                Thread.sleep(500);
             }
             //Menutup File
             fileRAFData.close();
