@@ -262,22 +262,22 @@ public class OutputView {
         pListVolumeBalok.setBounds(174, 350, 133, 200);
         content.add(pListVolumeBalok);
 
-        content.add(lTabung);
-        lTabung.setBounds(360, 330, 133, 20);
-        tableVolumeTabung = new DefaultTableModel(colomVolumeTabung, 0);
-        listVolumeTabung = new JTable(tableVolumeTabung);
-        pListVolumeTabung = new JScrollPane(listVolumeTabung);
-        pListVolumeTabung.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-        pListVolumeTabung.setBounds(317, 350, 133, 200);
-        content.add(pListVolumeTabung);
+        content.add(lPrisma);
+        lPrisma.setBounds(503, 330, 133, 20);
+        tableVolumePrisma = new DefaultTableModel(colomVolumePrisma , 0);
+        listVolumePrisma = new JTable(tableVolumePrisma);
+        pListVolumePrisma = new JScrollPane(listVolumePrisma);
+        pListVolumePrisma .setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        pListVolumePrisma .setBounds(460, 350, 133, 200);
+        content.add(pListVolumePrisma );
         
         content.add(lKerucut);
-        lKerucut.setBounds(503, 330, 133, 20);
+        lKerucut.setBounds(787, 330, 133, 20);
         tableVolumeKerucut = new DefaultTableModel(colomVolumeKerucut, 0);
         listVolumeKerucut = new JTable(tableVolumeKerucut);
         pListVolumeKerucut = new JScrollPane(listVolumeKerucut);
         pListVolumeKerucut.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-        pListVolumeKerucut.setBounds(460, 350, 133, 200);
+        pListVolumeKerucut.setBounds(746, 350, 133, 200);
         content.add(pListVolumeKerucut);
         
         content.add(lBola);
@@ -289,22 +289,22 @@ public class OutputView {
         pListVolumeBola.setBounds(603, 350, 133, 200);
         content.add(pListVolumeBola);
         
-        content.add(lPrisma);
-        lPrisma.setBounds(787, 330, 133, 20);
-        tableVolumePrisma = new DefaultTableModel(colomVolumePrisma , 0);
-        listVolumePrisma = new JTable(tableVolumePrisma);
-        pListVolumePrisma = new JScrollPane(listVolumePrisma);
-        pListVolumePrisma .setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-        pListVolumePrisma .setBounds(746, 350, 133, 200);
-        content.add(pListVolumePrisma );
-        
+        content.add(lTabung);
+        lTabung.setBounds(935, 330, 133, 20);
+        tableVolumeTabung = new DefaultTableModel(colomVolumeTabung, 0);
+        listVolumeTabung = new JTable(tableVolumeTabung);
+        pListVolumeTabung = new JScrollPane(listVolumeTabung);
+        pListVolumeTabung.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        pListVolumeTabung.setBounds(889, 350, 133, 200);
+        content.add(pListVolumeTabung);
         content.add(lLSegitiga);
-        lLSegitiga.setBounds(913, 330, 133, 20);
+        
+        lLSegitiga.setBounds(340, 330, 133, 20);
         tableVolumeLimasSegiTiga = new DefaultTableModel(colomVolumeLimasSegiTiga , 0);
         listVolumeLimasSegiTiga  = new JTable(tableVolumeLimasSegiTiga);
         pListVolumeLimasSegiTiga  = new JScrollPane(listVolumeLimasSegiTiga);
         pListVolumeLimasSegiTiga.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-        pListVolumeLimasSegiTiga.setBounds(889, 350, 133, 200);
+        pListVolumeLimasSegiTiga.setBounds(317, 350, 133, 200);
         content.add(pListVolumeLimasSegiTiga);
         
         content.add(lLSegiempat);

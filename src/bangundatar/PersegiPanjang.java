@@ -100,6 +100,7 @@ public class PersegiPanjang extends Thread{
                 l++;
                 index++;
                 row++;
+                Thread.sleep(200);
             }
             fileRAFData.close();
             fileRAFLuasPersegiPanjang.close();

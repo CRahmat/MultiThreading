@@ -44,7 +44,7 @@ public class Kerucut extends Lingkaran implements Runnable{
         //Badan Threads
     public void run(){
         try {
-        Thread.sleep(11000);
+        Thread.sleep(5000);
         hitungVolume();
         } catch (InterruptedException ex) {//Exception Threads Terinterupsi
         JOptionPane.showMessageDialog(null, ex.getMessage());        
@@ -112,6 +112,7 @@ public class Kerucut extends Lingkaran implements Runnable{
                 l++;
                 index++;
                 row++;
+                Thread.sleep(200);
             }
              //MENUTUP FILE
             fileRAFData.close();

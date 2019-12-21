@@ -44,7 +44,7 @@ public class LimasSegiTiga extends Segitiga implements Runnable{
         //Badan Threads
     public void run(){
         try {
-        Thread.sleep(14000);
+        Thread.sleep(4000);
         } catch (InterruptedException ex) {//Exception Threads Terinterupsi
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
@@ -105,6 +105,7 @@ public class LimasSegiTiga extends Segitiga implements Runnable{
                 l++;
                 index++;
                 row++;
+                Thread.sleep(200);
             }
              //MENUTUP FILE
             fileRAFData.close();

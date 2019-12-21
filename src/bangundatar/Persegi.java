@@ -85,6 +85,7 @@ public class Persegi extends Thread{
                 l++;
                 index++;
                 row++;
+                Thread.sleep(200);
             }
             //Menutup File
             fileRAFData.close();//Close File Data

@@ -43,7 +43,7 @@ public class Balok extends PersegiPanjang implements Runnable{
         //Badan Threads
     public void run(){
         try {
-        Thread.sleep(9000);
+        Thread.sleep(3000);
         hitungVolume();
         } catch (InterruptedException ex) {//Exception Threads Terinterupsi
         JOptionPane.showMessageDialog(null, ex.getMessage());        
@@ -103,6 +103,7 @@ public class Balok extends PersegiPanjang implements Runnable{
                 l++;
                 index++;
                 row++;
+                Thread.sleep(200);
             }
              //MENUTUP FILE
             fileRAFData.close();

@@ -45,7 +45,7 @@ public class LimasSegiEmpat extends Persegi implements Runnable{
         //Badan Threads
     public void run(){
         try {
-        Thread.sleep(15000);
+        Thread.sleep(2000);
         hitungVolume();
         } catch (InterruptedException ex) {//Exception Threads Terinterupsi
         JOptionPane.showMessageDialog(null, ex.getMessage());
@@ -109,6 +109,7 @@ public class LimasSegiEmpat extends Persegi implements Runnable{
                 l++;
                 index++;
                 row++;
+                Thread.sleep(200);
             }
              //MENUTUP FILE
             fileRAFData.close();
